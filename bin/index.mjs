@@ -53,7 +53,7 @@ async function upload(result) {
   await fetch(`${process.env.GIT_PROJECT_API}/wikis/ChangeLogs`, {
     method: "PUT",
     headers: {
-      "PRIVATE-TOKEN": process.env.GIT_TOKEN,
+      "PRIVATE-TOKEN": `${process.env.GIT_TOKEN}`,
       "Content-Type": "application/json",
     },
     body: `{"content":${result}}`,
@@ -122,10 +122,9 @@ const generateScopes = (commits) => {
 const getCommits = async () => {
   try {
     const url = `${process.env.GIT_PROJECT_API}/repository/compare?from=${process.env.PREVIOUS_TAG_SHA}&to=${process.env.CURRENT_TAG_SHA}`;
-    console.log(url);
     const gitInfo = await fetch(url, {
       headers: {
-        "PRIVATE-TOKEN": `${process.env.GITLAB_TOKEN}`,
+        "PRIVATE-TOKEN": `${process.env.GIT_TOKEN}`,
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });

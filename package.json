@@ -1,6 +1,6 @@
 {
   "name": "pishilogger",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "helps ypu generate automated changelogs and uploads them to git wiki and discord channel",
   "main": "index.js",
   "scripts": {
