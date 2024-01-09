@@ -1,0 +1,23 @@
+{
+  "name": "pishilogger",
+  "version": "1.0.0",
+  "description": "helps ypu generate automated changelogs and uploads them to git wiki and discord channel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "pishiLog": "bin/index.mjs"
+    
+  },
+  "keywords": [],
+  "author": "saman-taghavi",
+  "license": "ISC",
+  "dependencies": {
+    "jsdom": "^23.2.0",
+    "object.groupby": "^1.0.1",
+    "pino": "^8.17.2",
+    "sanitize-html": "^2.11.0",
+    "showdown": "^2.1.0"
+  }
+}

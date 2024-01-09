@@ -1,0 +1,11 @@
+# to ignore lock files
+*.lock
+*-lock.*
+# node modules
+node_modules
+# remove nex-env.d.ts
+src/next-env.d.ts
+.DS_Store
+
+# voscode
+.vscode
