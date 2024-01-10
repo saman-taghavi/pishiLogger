@@ -129,6 +129,15 @@ const getCommits = async () => {
       },
     });
     const commits = (await gitInfo.json())["commits"];
+    if (!commits) {
+      throw new Error(
+        `no commits, check ${JSON.stringify({
+          url,
+          token: process.env.GIT_TOKEN,
+          gitInfo,
+        })}`
+      );
+    }
     return commits;
   } catch (error) {
     errHandler(error, "getCommits");
