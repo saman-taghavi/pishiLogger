@@ -1,14 +1,18 @@
 {
   "name": "pishilogger",
   "version": "1.0.8",
-  "description": "helps ypu generate automated changelogs and uploads them to git wiki and discord channel",
+  "description": "helps ypu generate automated changelogs",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "lint": "tsc --noEmit -p tsconfig.json && biome lint --diagnostic-level=error --no-errors-on-unmatched ./**/*.{js,ts}",
+    "lint:fix": "biome check --write --unsafe ./**/*.{js,ts}",
+    "lint:staged": "biome check --error-on-warnings --no-errors-on-unmatched --staged ./**/*.{js,ts}",
+    "postbuild": "node src/utils/rename-output.mjs"
   },
   "bin": {
     "pishiLog": "bin/index.mjs"
-    
   },
   "keywords": [],
   "author": "saman-taghavi",
@@ -19,5 +23,13 @@
     "pino": "^8.17.2",
     "sanitize-html": "^2.11.0",
     "showdown": "^2.1.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^22.5.4",
+    "@types/object.groupby": "^1.0.4",
+    "@types/showdown": "^2.0.6",
+    "typescript": "^5.5.4"
   }
 }

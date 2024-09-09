@@ -9,3 +9,4 @@ src/next-env.d.ts
 
 # voscode
 .vscode
+.env
