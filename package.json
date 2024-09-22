@@ -1,6 +1,6 @@
 {
   "name": "pishilogger",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "helps ypu generate automated changelogs",
   "main": "index.js",
   "type": "module",
@@ -14,7 +14,17 @@
   "bin": {
     "pishiLog": "bin/index.mjs"
   },
-  "keywords": [],
+  "keywords": [
+    "clickup",
+    "gitlab",
+    "changelog",
+    "discord",
+    "git",
+    "log",
+    "minimal",
+    "fun",
+    "automate"
+  ],
   "author": "saman-taghavi",
   "license": "ISC",
   "dependencies": {
