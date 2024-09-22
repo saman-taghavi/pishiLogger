@@ -1,15 +1,42 @@
 #! /usr/bin/env node
 import groupBy from "object.groupby";
 import { pino } from "pino";
-export const logger = pino();
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+const ENVIRONEMENT_VARS = {
+    // Note: should be provided as an object with the same key/value pair
+    SCOPES: process.env.SCOPES,
+    PREVIOUS_TAG_SHA: process.env.PREVIOUS_TAG_SHA,
+    CURRENT_TAG_SHA: process.env.CURRENT_TAG_SHA,
+    CI_COMMIT_TAG: process.env.CI_COMMIT_TAG,
+    GIT_PROJECT_API: process.env.GIT_PROJECT_API,
+    GIT_TOKEN: process.env.GIT_TOKEN,
+    GIT_PROJECT_URL: process.env.GIT_PROJECT_URL,
+    CLICK_UP_WORKSPACE_ID: process.env.CLICK_UP_WORKSPACE_ID,
+    CLICK_UP_DOC_ID: process.env.CLICK_UP_DOC_ID,
+    CLICK_UP_TOKEN: process.env.CLICK_UP_TOKEN,
+    DISCORD_HOOK: process.env.DISCORD_HOOK,
+    DISCORD_PROJECT_IMG: process.env.DISCORD_PROJECT_IMG,
+    DISCORD_PROJECT_COLOR_DIGIT: process.env.DISCORD_PROJECT_COLOR_DIGIT ?? 2646246,
+    DISCORD_NAME: process.env.DISCORD_NAME || "پیشی جان",
+    DISCORD_AVATAR: process.env.DISCORD_AVATAR || "https://cataas.com/cat",
+};
+const ALLOWED_SCOPES = ENVIRONEMENT_VARS?.SCOPES ?? {
+    build: "build",
+    ci: "ci",
+    docs: "docs",
+    feat: "feat",
+    fix: "fix",
+    perf: "perf",
+    refactor: "refactor",
+    test: "test",
+};
+export const logger = pino(); // biome-ignore lint/suspicious/noExplicitAny: will work on this later :)
 export const errHandler = (error, from, args) => logger.error(error, { from, args });
 async function upload(result) {
     logger.info("uploading to git wiki");
-    await fetch(`${process.env.GIT_PROJECT_API}/wikis/ChangeLogs`, {
+    await fetch(`${ENVIRONEMENT_VARS.GIT_PROJECT_API}/wikis/ChangeLogs`, {
         method: "PUT",
         headers: {
-            "PRIVATE-TOKEN": `${process.env.GIT_TOKEN}`,
+            "PRIVATE-TOKEN": `${ENVIRONEMENT_VARS.GIT_TOKEN}`,
             "Content-Type": "application/json",
         },
         body: `{"content":${result}}`,
@@ -18,28 +45,13 @@ async function upload(result) {
         logger.info(res.status);
     })
         .catch(async (err) => {
-        logger.info(err);
+        logger.error(err);
     })
         .finally(() => {
         logger.info("done ✅");
     });
 }
-/**
- *
- * @param {commits[]} commits
- * @returns {scopedCommits} using angular conventions
- */
 const generateScopes = (commits) => {
-    const ALLOWED_SCOPES = {
-        build: "build",
-        ci: "ci",
-        docs: "docs",
-        feat: "feat",
-        fix: "fix",
-        perf: "perf",
-        refactor: "refactor",
-        test: "test",
-    };
     try {
         const sorted = groupBy(commits, ({ title }) => {
             const scope = title.split(":")[0].split("(")[0].trim().toLowerCase();
@@ -52,27 +64,18 @@ const generateScopes = (commits) => {
     }
     return undefined;
 };
-/**
- *
- * @returns {Promise<commits[]>} all related git commits
- */
 const getCommits = async () => {
     try {
-        const url = `${process.env.GIT_PROJECT_API}/repository/compare?from=${process.env.PREVIOUS_TAG_SHA}&to=${process.env.CURRENT_TAG_SHA}`;
+        const url = `${ENVIRONEMENT_VARS.GIT_PROJECT_API}/repository/compare?from=${ENVIRONEMENT_VARS.PREVIOUS_TAG_SHA}&to=${ENVIRONEMENT_VARS.CURRENT_TAG_SHA}`;
         const gitInfo = await fetch(url, {
             headers: {
-                "PRIVATE-TOKEN": `${process.env.GIT_TOKEN}`,
+                "PRIVATE-TOKEN": `${ENVIRONEMENT_VARS.GIT_TOKEN}`,
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         });
-        logger.info(url);
         const commits = (await gitInfo.json()).commits;
         if (!commits) {
-            throw new Error(`no commits, check ${JSON.stringify({
-                url,
-                token: process.env.GIT_TOKEN,
-                gitInfo,
-            })}`);
+            throw new Error("no commits, check envs related to git");
         }
         return commits;
     }
@@ -81,18 +84,14 @@ const getCommits = async () => {
     }
     return undefined;
 };
-/**
- *
- * @param {*} body this should be a stringified json @see https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html
- */
 const sendDiscordWebHook = async (body) => {
     try {
         logger.info("message to discord");
-        if (!process.env.DISCORD_HOOK) {
+        if (!ENVIRONEMENT_VARS.DISCORD_HOOK) {
             return logger.error("No discord hook found");
         }
         // biome-ignore lint/style/noNonNullAssertion: <explanation>
-        const res = await fetch(process.env.DISCORD_HOOK, {
+        const res = await fetch(ENVIRONEMENT_VARS.DISCORD_HOOK, {
             body,
             headers: {
                 "Content-Type": "application/json",
@@ -107,13 +106,13 @@ const sendDiscordWebHook = async (body) => {
     }
 };
 const generateBasicDiscordMessage = () => {
-    if (!process.env.DISCORD_PROJECT_IMG ||
-        !process.env.DISCORD_PROJECT_COLOR_DIGIT) {
+    if (!ENVIRONEMENT_VARS.DISCORD_PROJECT_IMG ||
+        !ENVIRONEMENT_VARS.DISCORD_PROJECT_COLOR_DIGIT) {
         logger.info("please provide `DISCORD_PROJECT_IMG` and `DISCORD_PROJECT_COLOR_DIGIT` envs");
     }
-    const avatar_url = "https://cataas.com/cat";
-    const username = "پیشی جان";
-    const projectWikiURL = `${process.env.GIT_PROJECT_URL}/-/wikis/ChangeLogs`;
+    const avatar_url = ENVIRONEMENT_VARS.DISCORD_AVATAR;
+    const username = ENVIRONEMENT_VARS.DISCORD_NAME;
+    const projectWikiURL = `${ENVIRONEMENT_VARS.GIT_PROJECT_URL}/-/wikis/ChangeLogs`;
     return {
         username,
         avatar_url,
@@ -125,23 +124,18 @@ const generateBasicDiscordMessage = () => {
                     // TODO replace icon_url with an env
                     url: projectWikiURL,
                 },
-                color: process.env?.DISCORD_PROJECT_COLOR_DIGIT ?? 2646246,
+                color: ENVIRONEMENT_VARS.DISCORD_PROJECT_COLOR_DIGIT,
                 thumbnail: {
-                    url: process.env?.DISCORD_PROJECT_IMG ??
-                        "https://panel.iranicard.ir/icons/icon-512x512.png",
+                    url: ENVIRONEMENT_VARS.DISCORD_PROJECT_IMG,
                 },
                 description: "",
             },
         ],
     };
 };
-/**
- *
- * @param {string} markdown
- */
 const uploadToDiscord = async (markdown) => {
     try {
-        if (!process.env.DISCORD_HOOK) {
+        if (!ENVIRONEMENT_VARS.DISCORD_HOOK) {
             throw new Error("provid DISCORD_HOOK env");
         }
         const limitedMarkdown = markdown.substring(0, 2900);
@@ -151,13 +145,9 @@ const uploadToDiscord = async (markdown) => {
     }
     catch (error) {
         errHandler(error, "uploadToDiscord");
+        return;
     }
 };
-/**
- * @description let's make it markdown only
- * @param {commitsWithJira} commit
- *
- */
 const generateMarkDown = (commit) => {
     const indent = "    ";
     const gitAuthor = `- Author: *${commit.author_name}*`;
@@ -170,7 +160,7 @@ const generateMarkDown = (commit) => {
             .split("#")
             .filter((item) => item.length > 1)
             .map((item) => {
-            return `- see [${item}](https://app.clickup.com/t/${process.env.CLICK_UP_WORKSPACE_ID}/${item})`;
+            return `- see [${item}](https://app.clickup.com/t/${ENVIRONEMENT_VARS.CLICK_UP_WORKSPACE_ID}/${item})`;
         })
             .join(`${indent}`)
         : "";
@@ -197,9 +187,9 @@ const generateH2s = async (commits) => {
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const _uploadToGit = async (markdown) => {
     try {
-        const oldData = await fetch(`${process.env.GIT_PROJECT_API}/wikis/ChangeLogs`, {
+        const oldData = await fetch(`${ENVIRONEMENT_VARS.GIT_PROJECT_API}/wikis/ChangeLogs`, {
             headers: {
-                "PRIVATE-TOKEN": `${process.env.GIT_TOKEN}`,
+                "PRIVATE-TOKEN": `${ENVIRONEMENT_VARS.GIT_TOKEN}`,
                 "Content-Type": "application/json",
             },
         });
@@ -213,9 +203,9 @@ const _uploadToGit = async (markdown) => {
 };
 // clickUp
 export const uploadClickUpDoc = async (name, content) => {
-    const workspaceId = process.env.CLICK_UP_WORKSPACE_ID;
-    const docId = process.env.CLICK_UP_DOC_ID;
-    const clickupToken = process.env.CLICK_UP_TOKEN;
+    const workspaceId = ENVIRONEMENT_VARS.CLICK_UP_WORKSPACE_ID;
+    const docId = ENVIRONEMENT_VARS.CLICK_UP_DOC_ID;
+    const clickupToken = ENVIRONEMENT_VARS.CLICK_UP_TOKEN;
     if (!workspaceId || !docId || !clickupToken) {
         errHandler("INCLUDE THESE ENVs FOR CLICKUP CLICK_UP_WORKSPACE_ID ,CLICK_UP_DOC_ID,CLICK_UP_TOKEN ");
         return;
@@ -242,12 +232,12 @@ export const uploadClickUpDoc = async (name, content) => {
 };
 const main = async () => {
     try {
-        if (!process.env.GIT_PROJECT_API ||
-            !process.env.GIT_PROJECT_URL ||
-            !process.env.GIT_TOKEN) {
+        if (!ENVIRONEMENT_VARS.GIT_PROJECT_API ||
+            !ENVIRONEMENT_VARS.GIT_PROJECT_URL ||
+            !ENVIRONEMENT_VARS.GIT_TOKEN) {
             throw new Error("set all these envs GIT_PROJECT_API | GIT_PROJECT_URL |  GIT_TOKEN ");
         }
-        const Title = `# ${process.env.CI_COMMIT_TAG ?? "NO TAG"}\n`;
+        const Title = `# ${ENVIRONEMENT_VARS.CI_COMMIT_TAG ?? "NO TAG"}\n`;
         const commits = await getCommits();
         if (!commits?.length) {
             logger.error("NO commits");
@@ -256,8 +246,10 @@ const main = async () => {
         const scopes = generateScopes(commits);
         const gitBody = await generateH2s(scopes);
         const discordMarkdown = `${Title}${gitBody}`;
+        if (ENVIRONEMENT_VARS.DISCORD_HOOK) {
+            await uploadToDiscord(discordMarkdown);
+        }
         await uploadClickUpDoc(Title, gitBody);
-        await uploadToDiscord(discordMarkdown);
     }
     catch (error) {
         errHandler(error, "main");
