@@ -7,7 +7,7 @@ this is a small package to help with a simple versioning problem I had at work a
 also note that this version currently only works with gitlab
 
 ```json
-const ENVIRONEMENT_VARS = {
+{
   // Note: should be provided as an object with the same key/value pair
   SCOPES: process.env.SCOPES,
   PREVIOUS_TAG_SHA: process.env.PREVIOUS_TAG_SHA,
