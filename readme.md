@@ -8,24 +8,22 @@ also note that this version currently only works with gitlab
 
 ```json
 {
-  // Note: should be provided as an object with the same key/value pair
-  SCOPES: process.env.SCOPES,
-  PREVIOUS_TAG_SHA: process.env.PREVIOUS_TAG_SHA,
-  CURRENT_TAG_SHA: process.env.CURRENT_TAG_SHA,
-  CI_COMMIT_TAG: process.env.CI_COMMIT_TAG,
-  GIT_PROJECT_API: process.env.GIT_PROJECT_API,
-  GIT_TOKEN: process.env.GIT_TOKEN,
-  GIT_PROJECT_URL: process.env.GIT_PROJECT_URL,
-  CLICK_UP_WORKSPACE_ID: process.env.CLICK_UP_WORKSPACE_ID,
-  CLICK_UP_DOC_ID: process.env.CLICK_UP_DOC_ID,
-  CLICK_UP_TOKEN: process.env.CLICK_UP_TOKEN,
-  DISCORD_HOOK: process.env.DISCORD_HOOK,
-  DISCORD_PROJECT_IMG: process.env.DISCORD_PROJECT_IMG,
-  DISCORD_PROJECT_COLOR_DIGIT:
-    process.env.DISCORD_PROJECT_COLOR_DIGIT ?? 2646246,
-  DISCORD_NAME: process.env.DISCORD_NAME || "پیشی جان",
-  DISCORD_AVATAR: process.env.DISCORD_AVATAR || "https://cataas.com/cat",
-};
+  "SCOPES": "should be provided as an object with the same key/value pair",
+  "PREVIOUS_TAG_SHA": "this is provided in the following yml",
+  "CURRENT_TAG_SHA": "this is provided in the following yml",
+  "CI_COMMIT_TAG": "this is provided by gitlab ci",
+  "GIT_PROJECT_API": "your git project api",
+  "GIT_TOKEN": "your PAC or your project access token to read the commits",
+  "GIT_PROJECT_URL": "your git project url",
+  "CLICK_UP_WORKSPACE_ID": "your click up workspace id, you can see it in the url",
+  "CLICK_UP_DOC_ID": "create a doc in click up and see the url for id",
+  "CLICK_UP_TOKEN": "genereate a clickup token to upload to clickup",
+  "DISCORD_HOOK": "a discord hook",
+  "DISCORD_PROJECT_IMG": "an image for prjoect to include in discord message",
+  "DISCORD_PROJECT_COLOR_DIGIT": "the color for discord message",
+  "DISCORD_NAME": "a name for discord bot",
+  "DISCORD_AVATAR": "an avatar for discord bot"
+}
 ```
 
 and here is the default scope object
