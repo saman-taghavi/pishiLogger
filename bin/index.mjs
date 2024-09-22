@@ -249,7 +249,9 @@ const main = async () => {
         if (ENVIRONEMENT_VARS.DISCORD_HOOK) {
             await uploadToDiscord(discordMarkdown);
         }
-        await uploadClickUpDoc(Title, gitBody);
+        if (ENVIRONEMENT_VARS.CLICK_UP_TOKEN) {
+            await uploadClickUpDoc(Title, gitBody);
+        }
     }
     catch (error) {
         errHandler(error, "main");
