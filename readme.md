@@ -3,7 +3,8 @@
 this is a small package to help with a simple versioning problem I had at work and speedup manual labor, nevertheless I am open to ideas and hope this would be usefull to anyone who may need it.
 
 # envs
-also note that this version currently only works with gitlab 
+
+also note that this version currently only works with gitlab
 
 ```json
 const ENVIRONEMENT_VARS = {
@@ -27,18 +28,44 @@ const ENVIRONEMENT_VARS = {
 };
 ```
 
-and here is the default scope object 
+and here is the default scope object
 
 ```json
 {
-  build: "build",
-  ci: "ci",
-  docs: "docs",
-  feat: "feat",
-  fix: "fix",
-  perf: "perf",
-  refactor: "refactor",
-  test: "test",
+  "build": "build",
+  "ci": "ci",
+  "docs": "docs",
+  "feat": "feat",
+  "fix": "fix",
+  "perf": "perf",
+  "refactor": "refactor",
+  "test": "test"
 }
 ```
-open a pr for any change that you want to be made :) 
+
+open a pr for any change that you want to be made :)
+
+Also to use this you only need to add a step to your `.gitlab-ci.yml` file like so:
+
+```yml
+stages:
+  # add this stage before publish
+  - changeLogs
+```
+
+```yml
+update-changelog:
+  stage: changeLogs
+  image: node:lts-alpine
+  rules:
+    # change this rule if you follow a different tag format
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
+    - when: never
+  before_script:
+    - apk add --no-cache git
+  script:
+    # here we set the two commit tags to envs
+    - export PREVIOUS_TAG_SHA=$(git rev-list -n 1 $(git describe --abbrev=0 --tags "${CI_COMMIT_TAG}^"))
+    - export CURRENT_TAG_SHA=$(git rev-list -n 1 "${CI_COMMIT_TAG}")
+    - npx pishilogger
+```
