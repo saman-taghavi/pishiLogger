@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v2.1.0
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v0.5.7...v2.1.0)
+
+### 🚀 Enhancements
+
+- Update jiti to v2 ([6e85d32](https://github.com/saman-taghavi/pishiLogger/commit/6e85d32))
+- Add check for breaking changes in commit body ([#228](https://github.com/saman-taghavi/pishiLogger/pull/228))
+- Rename package to pishilogger and add GitLab command support ([1b0527f](https://github.com/saman-taghavi/pishiLogger/commit/1b0527f))
+
+### 🩹 Fixes
+
+- Use `https` proto for author's github link ([#225](https://github.com/saman-taghavi/pishiLogger/pull/225))
+- Use `https` proto for author's github link in tests ([#226](https://github.com/saman-taghavi/pishiLogger/pull/226))
+
+### 🏡 Chore
+
+- Lint ([031cfd6](https://github.com/saman-taghavi/pishiLogger/commit/031cfd6))
+- Add bun.lock to .gitignore ([b95c1ec](https://github.com/saman-taghavi/pishiLogger/commit/b95c1ec))
+
+### ✅ Tests
+
+- Add tests for parsing co-authors from commit body ([#229](https://github.com/saman-taghavi/pishiLogger/pull/229))
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+- Jan-Henrik Damaschke <jdamaschke@outlook.de>
+- Pooya Parsa ([@pi0](https://github.com/pi0))
+- Damian Głowala ([@DamianGlowala](https://github.com/DamianGlowala))
+
 ## v0.5.7
 
 [compare changes](https://github.com/unjs/changelogen/compare/v0.5.6...v0.5.7)
