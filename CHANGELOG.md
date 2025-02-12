@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v2.1.1
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.1.0...v2.1.1)
+
+### 📖 Documentation
+
+- Update README to reflect package name change to pishilogger ([3cabb4e](https://github.com/saman-taghavi/pishiLogger/commit/3cabb4e))
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+
 ## v2.1.0
 
 [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v0.5.7...v2.1.0)
