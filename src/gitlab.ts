@@ -80,6 +80,18 @@ export async function generateMarkDown(
       })
     );
   }
+  const jiraIssues = [..._authors.entries()].map((e) => ({ name: e[0], ...e[1] }));
+
+  if (authors.length > 0) {
+    markdown.push(
+      "",
+      "### " + "❤️ Contributors",
+      "",
+      ...authors.map((i) => {
+        return `- ${i.name}`;
+      })
+    );
+  }
 
   return convert(markdown.join("\n").trim(), true);
 }
