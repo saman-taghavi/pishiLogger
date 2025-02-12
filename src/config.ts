@@ -11,6 +11,18 @@ export interface ChangelogConfig {
   scopeMap: Record<string, string>;
   repo?: RepoConfig | string;
   tokens: Partial<Record<RepoProvider, string>>;
+  provider?: Partial<{
+    gitlab: { CI_PROJECT_ID: string; CI_API_V4_URL: string };
+  }>;
+  publisher?: Partial<{
+    mattermost: {
+      username: string;
+      password: string;
+      url: string;
+      channelName: string;
+      webhook?:string
+    };
+  }>;
   from: string;
   to: string;
   newVersion?: string;
@@ -27,6 +39,10 @@ export interface ChangelogConfig {
     tagBody?: string;
   };
   excludeAuthors: string[];
+  jira?: {
+    serverUrl: string;
+    token: string;
+  };
 }
 
 export type ResolvedChangelogConfig = Omit<ChangelogConfig, "repo"> & {
@@ -49,6 +65,7 @@ const getDefaultConfig = () =>
       test: { title: "✅ Tests" },
       style: { title: "🎨 Styles" },
       ci: { title: "🤖 CI" },
+      other: { title: "other" },
     },
     cwd: null,
     from: "",
@@ -60,6 +77,23 @@ const getDefaultConfig = () =>
         process.env.CHANGELOGEN_TOKENS_GITHUB ||
         process.env.GITHUB_TOKEN ||
         process.env.GH_TOKEN,
+      gitlab: process.env.CUSTOM_GITLAB_TOKEN || process.env.GITLAB_TOKEN || process.env.GL_TOKEN,
+    },
+    provider: {
+      gitlab: {
+        CI_API_V4_URL: process.env.CI_API_V4_URL,
+        CI_PROJECT_ID: process.env.CI_PROJECT_ID,
+      },
+    },
+    publisher: {
+      mattermost: {
+        // this is not desired, as server devops is out of question right now we stick with this so far
+        username: process.env.MATTERMOST_USERNAME,
+        password: process.env.MATTERMOST_PASSWORD,
+        url: process.env.MATTERMOST_URL,
+        channelName: process.env.MATTERMOST_CHANNEL,
+        webhook: process.env.MATTERMOST_WEBHOOK,
+      },
     },
     publish: {
       private: false,
@@ -72,6 +106,10 @@ const getDefaultConfig = () =>
       tagBody: "v{{newVersion}}",
     },
     excludeAuthors: [],
+    jira: {
+      serverUrl: process.env.JIRA_SERVER,
+      token: process.env.JIRA_TOKEN,
+    },
   };
 
 export async function loadChangelogConfig(
