@@ -6,6 +6,7 @@ const subCommands = {
   _default: () => import("./commands/default"),
   gh: () => import("./commands/github"),
   github: () => import("./commands/github"),
+  gl: () => import("./commands/gitlab"),
 };
 
 async function main() {

@@ -67,7 +67,7 @@ export async function getGitDiff(
 ): Promise<RawGitCommit[]> {
   // https://git-scm.com/docs/pretty-formats
   const r = execCommand(
-    `git --no-pager log "${from ? `${from}...` : ""}${to}" --pretty="----%n%s|%h|%an|%ae%n%b" --name-status`,
+    `git --no-pager log "${from ? `${from}...` : ""}${to}" --pretty="----%n%s[seperator]%h[seperator]%an[seperator]%ae%n%b" --name-status`,
     cwd
   );
   return r
@@ -76,7 +76,7 @@ export async function getGitDiff(
     .map((line) => {
       const [firstLine, ..._body] = line.split("\n");
       const [message, shortHash, authorName, authorEmail] =
-        firstLine.split("|");
+        firstLine.split("[seperator]");
       const r: RawGitCommit = {
         message,
         shortHash,
@@ -109,8 +109,25 @@ export function parseGitCommit(
   config: ChangelogConfig
 ): GitCommit | null {
   const match = commit.message.match(ConventionalCommitRegex);
+  // Find all authors
+  const authors: GitCommitAuthor[] = [commit.author];
+  for (const match of commit.body.matchAll(CoAuthoredByRegex)) {
+    authors.push({
+      name: (match.groups.name || "").trim(),
+      email: (match.groups.email || "").trim(),
+    });
+  }
+
   if (!match) {
-    return null;
+    return {
+      ...commit,
+      authors,
+      description: commit.message,
+      type: "other",
+      scope: undefined,
+      references: [],
+      isBreaking: false,
+    };
   }
 
   const type = match.groups.type;
@@ -121,7 +138,6 @@ export function parseGitCommit(
 
   const isBreaking = Boolean(match.groups.breaking || hasBreakingBody);
   let description = match.groups.description;
-
   // Extract references from message
   const references: Reference[] = [];
   for (const m of description.matchAll(PullRequestRE)) {
@@ -136,16 +152,6 @@ export function parseGitCommit(
 
   // Remove references and normalize
   description = description.replace(PullRequestRE, "").trim();
-
-  // Find all authors
-  const authors: GitCommitAuthor[] = [commit.author];
-  for (const match of commit.body.matchAll(CoAuthoredByRegex)) {
-    authors.push({
-      name: (match.groups.name || "").trim(),
-      email: (match.groups.email || "").trim(),
-    });
-  }
-
   return {
     ...commit,
     authors,

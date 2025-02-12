@@ -53,19 +53,19 @@ describe("repo", () => {
     describe("when `url` is defined", () => {
       test.each([
         {
-          input: "https://github.com/unjs/changelogen.git",
+          input: "https://github.com/saman-taghavi/pishiLogger.git",
           output: {
             domain: "github.com",
             provider: "github",
-            repo: "unjs/changelogen",
+            repo: "saman-taghavi/pishiLogger",
           },
         },
         {
-          input: "https://github.com/unjs/changelogen",
+          input: "https://github.com/saman-taghavi/pishiLogger",
           output: {
             domain: "github.com",
             provider: "github",
-            repo: "unjs/changelogen",
+            repo: "saman-taghavi/pishiLogger",
           },
         },
         {
@@ -100,11 +100,11 @@ describe("repo", () => {
           },
         },
         {
-          input: "unjs/changelogen",
+          input: "saman-taghavi/pishiLogger",
           output: {
             domain: "github.com",
             provider: "github",
-            repo: "unjs/changelogen",
+            repo: "saman-taghavi/pishiLogger",
           },
         },
       ])("url=$input should return RepoConfig", ({ input, output }) => {

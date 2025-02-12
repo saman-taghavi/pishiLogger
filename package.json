@@ -1,8 +1,8 @@
 {
-  "name": "changelogen",
-  "version": "0.6.1",
-  "description": "Generate Beautiful Changelogs using Conventional Commits",
-  "repository": "unjs/changelogen",
+  "name": "pishilogger",
+  "version": "1.0.0",
+  "description": "generate automated changelog simply, a fork of `https://github.com/unjs/changelogen`",
+  "repository": "saman-taghavi/pishiLogger",
   "license": "MIT",
   "sideEffects": false,
   "type": "module",
@@ -13,7 +13,7 @@
     }
   },
   "bin": {
-    "changelogen": "./dist/cli.mjs"
+    "pishilogger": "./dist/cli.mjs"
   },
   "types": "./dist/index.d.mts",
   "files": [
@@ -21,12 +21,12 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "changelogen": "jiti ./src/cli.ts",
+    "pishilogger": "jiti ./src/cli.ts",
     "dev": "vitest dev",
     "lint": "eslint . && prettier -c src test",
     "lint:fix": "eslint --fix . && prettier -w src test",
     "prepack": "unbuild",
-    "release": "pnpm test && pnpm changelogen --release --push && pnpm publish",
+    "release": "pnpm test && pnpm pishilogger --release --push && pnpm publish",
     "test": "pnpm lint && vitest run --coverage"
   },
   "dependencies": {
