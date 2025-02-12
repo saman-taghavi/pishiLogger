@@ -102,8 +102,25 @@ export function parseGitCommit(
   config: ChangelogConfig
 ): GitCommit | null {
   const match = commit.message.match(ConventionalCommitRegex);
+  // Find all authors
+  const authors: GitCommitAuthor[] = [commit.author];
+  for (const match of commit.body.matchAll(CoAuthoredByRegex)) {
+    authors.push({
+      name: (match.groups.name || "").trim(),
+      email: (match.groups.email || "").trim(),
+    });
+  }
+
   if (!match) {
-    return null;
+    return {
+      ...commit,
+      authors,
+      description: commit.message,
+      type: "other",
+      scope: "other",
+      references: [],
+      isBreaking: false,
+    };
   }
 
   const type = match.groups.type;
@@ -114,7 +131,6 @@ export function parseGitCommit(
 
   const isBreaking = Boolean(match.groups.breaking || hasBreakingBody);
   let description = match.groups.description;
-
   // Extract references from message
   const references: Reference[] = [];
   for (const m of description.matchAll(PullRequestRE)) {
@@ -129,16 +145,6 @@ export function parseGitCommit(
 
   // Remove references and normalize
   description = description.replace(PullRequestRE, "").trim();
-
-  // Find all authors
-  const authors: GitCommitAuthor[] = [commit.author];
-  for (const match of commit.body.matchAll(CoAuthoredByRegex)) {
-    authors.push({
-      name: (match.groups.name || "").trim(),
-      email: (match.groups.email || "").trim(),
-    });
-  }
-
   return {
     ...commit,
     authors,

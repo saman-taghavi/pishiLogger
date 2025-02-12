@@ -11,6 +11,7 @@ export interface ChangelogConfig {
   scopeMap: Record<string, string>;
   repo?: RepoConfig | string;
   tokens: Partial<Record<RepoProvider, string>>;
+  provider?: Partial<Record<RepoProvider, string>>;
   from: string;
   to: string;
   newVersion?: string;
@@ -27,6 +28,10 @@ export interface ChangelogConfig {
     tagBody?: string;
   };
   excludeAuthors: string[];
+  jira?: {
+    serverUrl: string;
+    token: string;
+  };
 }
 
 export type ResolvedChangelogConfig = Omit<ChangelogConfig, "repo"> & {
@@ -49,6 +54,7 @@ const getDefaultConfig = () =>
       test: { title: "✅ Tests" },
       style: { title: "🎨 Styles" },
       ci: { title: "🤖 CI" },
+      other: { title: "other" },
     },
     cwd: null,
     from: "",
@@ -60,6 +66,10 @@ const getDefaultConfig = () =>
         process.env.CHANGELOGEN_TOKENS_GITHUB ||
         process.env.GITHUB_TOKEN ||
         process.env.GH_TOKEN,
+      gitlab: process.env.GITLAB_TOKEN || process.env.GL_TOKEN,
+    },
+    provider: {
+      gitlab: process.env.CI_API_V4_URL,
     },
     publish: {
       private: false,
@@ -72,6 +82,10 @@ const getDefaultConfig = () =>
       tagBody: "v{{newVersion}}",
     },
     excludeAuthors: [],
+    jira: {
+      serverUrl: process.env.JIRA_SERVER,
+      token: process.env.JIRA_TOKEN,
+    },
   };
 
 export async function loadChangelogConfig(

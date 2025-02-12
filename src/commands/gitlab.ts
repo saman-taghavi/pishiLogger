@@ -3,15 +3,12 @@ import type { Argv } from "mri";
 import { existsSync, promises as fsp } from "node:fs";
 import { resolve } from "pathe";
 import {
-  generateMarkDown,
   getCurrentGitStatus,
   getGitDiff,
   loadChangelogConfig,
   parseCommits,
 } from "..";
-import { execCommand } from "../exec";
-import { npmPublish, renamePackage } from "../package";
-import { githubRelease } from "./github";
+import { generateMarkDown } from "../gitlab";
 
 export default async function gitlabMain(args: Argv) {
   const cwd = resolve(args._[0] /* bw compat */ || args.dir || "");
@@ -37,37 +34,14 @@ export default async function gitlabMain(args: Argv) {
   logger.info(`Generating changelog for ${config.from || ""}...${config.to}`);
 
   const rawCommits = await getGitDiff(config.from, config.to);
-
-  // Parse commits as conventional commits
+  // Parse commits as our conventional commits
   const commits = parseCommits(rawCommits, config)
     .map((c) => ({ ...c, type: c.type.toLowerCase() /* #198 */ }))
-    .filter(
-      (c) =>
-        config.types[c.type] &&
-        !(c.type === "chore" && c.scope === "deps" && !c.isBreaking)
-    );
 
-  // Shortcut for canary releases
-  if (args.canary) {
-    if (args.bump === undefined) {
-      args.bump = true;
-    }
-    if (args.versionSuffix === undefined) {
-      args.versionSuffix = true;
-    }
-    if (args.nameSuffix === undefined && typeof args.canary === "string") {
-      args.nameSuffix = args.canary;
-    }
-  }
 
-  // Rename package name optionally
-  if (typeof args.nameSuffix === "string") {
-    await renamePackage(config, `-${args.nameSuffix}`);
-  }
-
+  logger.info(JSON.stringify(commits,undefined,3))
   // Generate markdown
   const markdown = await generateMarkDown(commits, config);
-
   // Show changelog in CLI unless bumping or releasing
   const displayOnly = !args.bump && !args.release;
   if (displayOnly) {
@@ -100,49 +74,6 @@ export default async function gitlabMain(args: Argv) {
     await fsp.writeFile(config.output, changelogMD);
   }
 
-  // Commit and tag changes for release mode
-  if (args.release) {
-    if (args.commit !== false) {
-      const filesToAdd = [config.output, "package.json"].filter(
-        (f) => f && typeof f === "string"
-      ) as string[];
-      execCommand(`git add ${filesToAdd.map((f) => `"${f}"`).join(" ")}`, cwd);
-      const msg = config.templates.commitMessage.replaceAll(
-        "{{newVersion}}",
-        config.newVersion
-      );
-      execCommand(`git commit -m "${msg}"`, cwd);
-    }
-    if (args.tag !== false) {
-      const msg = config.templates.tagMessage.replaceAll(
-        "{{newVersion}}",
-        config.newVersion
-      );
-      const body = config.templates.tagBody.replaceAll(
-        "{{newVersion}}",
-        config.newVersion
-      );
-      execCommand(
-        `git tag ${config.signTags ? "-s" : ""} -am "${msg}" "${body}"`,
-        cwd
-      );
-    }
-    if (args.push === true) {
-      execCommand("git push --follow-tags", cwd);
-    }
-    if (args.github !== false && config.repo?.provider === "github") {
-      await githubRelease(config, {
-        version: config.newVersion,
-        body: markdown.split("\n").slice(2).join("\n"),
-      });
-    }
-  }
-
-  // Publish package optionally
-  if (args.publish) {
-    if (args.publishTag) {
-      config.publish.tag = args.publishTag;
-    }
-    await npmPublish(config);
-  }
+  // TODO upload the file to gitlab wiki
+  // TODO upload the file to mattermost
 }
