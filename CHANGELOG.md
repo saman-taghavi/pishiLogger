@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v2.5.0
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.4.1...v2.5.0)
+
+### 🚀 Enhancements
+
+- Add CUSTOM_GITLAB_TOKEN ([077362e](https://github.com/saman-taghavi/pishiLogger/commit/077362e))
+
+### 🩹 Fixes
+
+- Upload mattemost file ([22909b2](https://github.com/saman-taghavi/pishiLogger/commit/22909b2))
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+
 ## v2.4.1
 
 [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.4.0...v2.4.1)
