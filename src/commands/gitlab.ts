@@ -58,9 +58,9 @@ export default async function gitlabMain(args: Argv) {
     await fsp.writeFile(config.output, changelogMD);
   }
   // TODO upload the file to gitlab wiki
-  const title = `${config.from || ""}...${config.to}`;
+  const title = `${config.from || ""}...${config.to}`.replaceAll("/", "-");
   if (config.tokens.gitlab) {
-    logger.info(`updating wiki with${title}`);
+    logger.info(`updating wiki with ${title}`);
     const res = await publishGitlabWiki(markdown, title, config);
     logger.info(`wiki update result,${JSON.stringify(res)}`);
   }
