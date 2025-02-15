@@ -29,7 +29,7 @@ export interface GitCommit extends RawGitCommit {
 
 export async function getLastGitTag() {
   try {
-    return execCommand("git fetch --depth=500 && git describe --tags --abbrev=0")?.split("\n").at(-1);
+    return execCommand("git describe --tags --abbrev=0")?.split("\n").at(-1);
   } catch {
     // Ignore
   }
