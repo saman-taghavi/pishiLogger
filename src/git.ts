@@ -117,7 +117,7 @@ export function parseGitCommit(
       authors,
       description: commit.message,
       type: "other",
-      scope: "other",
+      scope: undefined,
       references: [],
       isBreaking: false,
     };

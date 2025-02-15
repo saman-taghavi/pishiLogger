@@ -4,6 +4,7 @@ import { fetch } from "node-fetch-native";
 import type { ResolvedChangelogConfig } from "./config";
 import type { GitCommit, Reference } from "./git";
 import { formatReference, formatCompareChanges } from "./repo";
+import { getJiraDetails, getJiraInfo, JiraResponse } from "./jira";
 
 export async function generateMarkDown(
   commits: GitCommit[],
@@ -42,6 +43,20 @@ export async function generateMarkDown(
     markdown.push("", "#### ⚠️ Breaking Changes", "", ...breakingChanges);
   }
 
+  if (config.jira.token) {
+    const jiraIssues = await getJiraDetails(commits, config);
+    if (jiraIssues.length > 0) {
+      markdown.push(
+        "",
+        "### " + "🎯🪛🔧 Related Jira Issues Info",
+        "",
+        ...jiraIssues.map((i) => {
+          return `-${i.key} | ${i.fields.summary} ${i.fields.description ? i.fields.description.substring(0, 60) + "..." : ""}`;
+        })
+      );
+    }
+  }
+
   const _authors = new Map<string, { email: Set<string>; github?: string }>();
   for (const commit of commits) {
     if (!commit.author) {
@@ -67,20 +82,7 @@ export async function generateMarkDown(
     }
   }
 
-
   const authors = [..._authors.entries()].map((e) => ({ name: e[0], ...e[1] }));
-
-  if (authors.length > 0) {
-    markdown.push(
-      "",
-      "### " + "❤️ Contributors",
-      "",
-      ...authors.map((i) => {
-        return `- ${i.name}`;
-      })
-    );
-  }
-  const jiraIssues = [..._authors.entries()].map((e) => ({ name: e[0], ...e[1] }));
 
   if (authors.length > 0) {
     markdown.push(
