@@ -38,10 +38,11 @@ const extractJiraId = (commit: string) => {
   return commit
     .split("|")
     .slice(1)
+    .join(" ") // Ensure all issue text is in a single string
+    .split(/\s+/) // Split by any whitespace (spaces, tabs, new lines)
     .map((x) => x.trim())
     .filter(Boolean);
 };
-
 export async function getJiraDetails(
   commits: GitCommit[],
   config: ResolvedChangelogConfig

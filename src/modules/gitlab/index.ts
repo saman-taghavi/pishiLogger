@@ -1,11 +1,10 @@
-import { upperFirst } from "scule";
 import { convert } from "convert-gitmoji";
 import { fetch } from "node-fetch-native";
+import { upperFirst } from "scule";
 import type { ResolvedChangelogConfig } from "../../config";
 import type { GitCommit, Reference } from "../../git";
-import { formatReference, formatCompareChanges } from "../../repo";
-import { getJiraDetails, getJiraInfo, JiraResponse } from "../../jira";
-import { config } from "node:process";
+import { getJiraDetails } from "../../jira";
+import { formatCompareChanges, formatReference } from "../../repo";
 
 export async function generateMarkDown(
   commits: GitCommit[],
