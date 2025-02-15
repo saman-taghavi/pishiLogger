@@ -27,7 +27,7 @@ export const getJiraInfo = async (
     const result = await res.json() as Awaited<JiraResponse>;
 
     return result;
-  } catch (error) {
+  } catch  {
     throw new Error("getJiraInfo", {
       cause: jiraIdentifier,
     });
@@ -42,7 +42,7 @@ const extractJiraId = (commit: string) => {
     .split("|")
     .slice(1)
     .map((x) => x.trim())
-    .filter((x) => x);
+    .filter(Boolean);
 };
 
 export async function getJiraDetails(

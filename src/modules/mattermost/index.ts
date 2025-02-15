@@ -27,8 +27,8 @@ export async function sendToMatteMost(
         "Content-Type": "application/json",
       },
     })
-    .catch((e) => {
-      throw new Error("mattermost login", { cause: e });
+    .catch((error) => {
+      throw new Error("mattermost login", { cause: error });
     });
   const token = user.headers.get("Token");
 
@@ -41,10 +41,10 @@ export async function sendToMatteMost(
         "Content-Type": "application/json",
       },
     }
-  ).catch((e) => {
-    throw new Error("mattermost login", { cause: e });
+  ).catch((error) => {
+    throw new Error("mattermost login", { cause: error });
   });
-  if (!channels.length) {
+  if (!channels.length || channels.length === 0) {
     throw new Error("mattermost user doesn't have any channels");
   }
 
