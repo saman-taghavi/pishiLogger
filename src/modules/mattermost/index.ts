@@ -44,7 +44,7 @@ export async function sendToMatteMost(
   ).catch((error) => {
     throw new Error("mattermost login", { cause: error });
   });
-  if (!channels.length || channels.length === 0) {
+  if (channels.length === 0) {
     throw new Error("mattermost user doesn't have any channels");
   }
 

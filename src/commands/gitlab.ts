@@ -41,7 +41,6 @@ export default async function gitlabMain(args: Argv) {
     type: c.type.toLowerCase() /* #198 */,
   }));
 
-
   // Generate markdown
   const markdown = await generateMarkDown(commits, config);
   // Show changelog in CLI unless bumping or releasing

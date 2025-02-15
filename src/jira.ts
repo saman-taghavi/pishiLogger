@@ -24,18 +24,15 @@ export const getJiraInfo = async (
         method: "get",
       }
     );
-    const result = await res.json() as Awaited<JiraResponse>;
+    const result = (await res.json()) as Awaited<JiraResponse>;
 
     return result;
-  } catch  {
+  } catch {
     throw new Error("getJiraInfo", {
       cause: jiraIdentifier,
     });
   }
 };
-
-
-
 
 const extractJiraId = (commit: string) => {
   return commit

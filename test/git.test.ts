@@ -495,16 +495,18 @@ describe("git", () => {
       domain: "github.com",
     };
     expect(getRepoConfig("saman-taghavi/pishiLogger")).toStrictEqual(github);
-    expect(getRepoConfig("github:saman-taghavi/pishiLogger")).toStrictEqual(github);
-    expect(getRepoConfig("https://github.com/saman-taghavi/pishiLogger")).toStrictEqual(
+    expect(getRepoConfig("github:saman-taghavi/pishiLogger")).toStrictEqual(
       github
     );
     expect(
+      getRepoConfig("https://github.com/saman-taghavi/pishiLogger")
+    ).toStrictEqual(github);
+    expect(
       getRepoConfig("https://github.com/saman-taghavi/pishiLogger.git")
     ).toStrictEqual(github);
-    expect(getRepoConfig("git@github.com:saman-taghavi/pishiLogger.git")).toStrictEqual(
-      github
-    );
+    expect(
+      getRepoConfig("git@github.com:saman-taghavi/pishiLogger.git")
+    ).toStrictEqual(github);
 
     const gitlab = {
       provider: "gitlab",
@@ -512,16 +514,18 @@ describe("git", () => {
       domain: "gitlab.com",
     };
 
-    expect(getRepoConfig("gitlab:saman-taghavi/pishiLogger")).toStrictEqual(gitlab);
-    expect(getRepoConfig("https://gitlab.com/saman-taghavi/pishiLogger")).toStrictEqual(
+    expect(getRepoConfig("gitlab:saman-taghavi/pishiLogger")).toStrictEqual(
       gitlab
     );
     expect(
+      getRepoConfig("https://gitlab.com/saman-taghavi/pishiLogger")
+    ).toStrictEqual(gitlab);
+    expect(
       getRepoConfig("https://gitlab.com/saman-taghavi/pishiLogger.git")
     ).toStrictEqual(gitlab);
-    expect(getRepoConfig("git@gitlab.com:saman-taghavi/pishiLogger.git")).toStrictEqual(
-      gitlab
-    );
+    expect(
+      getRepoConfig("git@gitlab.com:saman-taghavi/pishiLogger.git")
+    ).toStrictEqual(gitlab);
 
     const bitbucket = {
       provider: "bitbucket",
@@ -539,7 +543,9 @@ describe("git", () => {
       getRepoConfig("https://bitbucket.org/saman-taghavi/pishiLogger.git")
     ).toStrictEqual(bitbucket);
     expect(
-      getRepoConfig("https://donaldsh@bitbucket.org/saman-taghavi/pishiLogger.git")
+      getRepoConfig(
+        "https://donaldsh@bitbucket.org/saman-taghavi/pishiLogger.git"
+      )
     ).toStrictEqual(bitbucket);
     expect(
       getRepoConfig("git@bitbucket.org:saman-taghavi/pishiLogger.git")
@@ -550,24 +556,28 @@ describe("git", () => {
       domain: "git.unjs.io",
     };
 
-    expect(getRepoConfig("selfhosted:saman-taghavi/pishiLogger")).toMatchObject({
-      provider: "selfhosted",
-      repo: "saman-taghavi/pishiLogger",
-    });
-
-    expect(getRepoConfig("https://git.unjs.io/saman-taghavi/pishiLogger")).toMatchObject(
-      selfhosted
+    expect(getRepoConfig("selfhosted:saman-taghavi/pishiLogger")).toMatchObject(
+      {
+        provider: "selfhosted",
+        repo: "saman-taghavi/pishiLogger",
+      }
     );
+
+    expect(
+      getRepoConfig("https://git.unjs.io/saman-taghavi/pishiLogger")
+    ).toMatchObject(selfhosted);
 
     expect(
       getRepoConfig("https://git.unjs.io/saman-taghavi/pishiLogger.git")
     ).toMatchObject(selfhosted);
     expect(
-      getRepoConfig("https://donaldsh@git.unjs.io/saman-taghavi/pishiLogger.git")
+      getRepoConfig(
+        "https://donaldsh@git.unjs.io/saman-taghavi/pishiLogger.git"
+      )
     ).toMatchObject(selfhosted);
-    expect(getRepoConfig("git@git.unjs.io:saman-taghavi/pishiLogger.git")).toMatchObject(
-      selfhosted
-    );
+    expect(
+      getRepoConfig("git@git.unjs.io:saman-taghavi/pishiLogger.git")
+    ).toMatchObject(selfhosted);
   });
 
   test("format reference", () => {
@@ -604,7 +614,9 @@ describe("git", () => {
     );
     expect(
       formatReference({ type: "pull-request", value: "#123" }, gitlab)
-    ).toBe("[#123](https://gitlab.com/saman-taghavi/pishiLogger/merge_requests/123)");
+    ).toBe(
+      "[#123](https://gitlab.com/saman-taghavi/pishiLogger/merge_requests/123)"
+    );
     expect(formatReference({ type: "issue", value: "#14" }, gitlab)).toBe(
       "[#14](https://gitlab.com/saman-taghavi/pishiLogger/issues/14)"
     );
@@ -620,7 +632,9 @@ describe("git", () => {
     );
     expect(
       formatReference({ type: "pull-request", value: "#123" }, bitbucket)
-    ).toBe("[#123](https://bitbucket.org/saman-taghavi/pishiLogger/pull-requests/123)");
+    ).toBe(
+      "[#123](https://bitbucket.org/saman-taghavi/pishiLogger/pull-requests/123)"
+    );
     expect(formatReference({ type: "issue", value: "#14" }, bitbucket)).toBe(
       "[#14](https://bitbucket.org/saman-taghavi/pishiLogger/issues/14)"
     );
