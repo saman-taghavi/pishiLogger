@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v2.3.2
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.3.1...v2.3.2)
+
+### 🩹 Fixes
+
+- Jira issue spacing ([340f3dd](https://github.com/saman-taghavi/pishiLogger/commit/340f3dd))
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+
 ## v2.3.1
 
 [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.3.0...v2.3.1)
