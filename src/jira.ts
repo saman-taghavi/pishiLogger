@@ -1,3 +1,4 @@
+import { ofetch } from "ofetch";
 import { ResolvedChangelogConfig } from "./config";
 import { GitCommit } from "./git";
 
@@ -15,7 +16,7 @@ export const getJiraInfo = async (
   jiraServer: string
 ) => {
   try {
-    const res = await fetch(
+    const res = await ofetch<JiraResponse>(
       `${jiraServer}/rest/api/latest/issue/${jiraIdentifier}?fields=summary,description`,
       {
         headers: {
@@ -24,9 +25,8 @@ export const getJiraInfo = async (
         method: "get",
       }
     );
-    const result = (await res.json()) as Awaited<JiraResponse>;
 
-    return result;
+    return res;
   } catch {
     throw new Error("getJiraInfo", {
       cause: jiraIdentifier,

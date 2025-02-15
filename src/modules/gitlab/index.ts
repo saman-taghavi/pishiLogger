@@ -52,7 +52,7 @@ export async function generateMarkDown(
         "### " + "🎯🪛🔧 Related Jira Issues Info",
         "",
         ...jiraIssues.map((i) => {
-          return `-   ${i.key} | ${i.fields.summary} ${i.fields.description ? i.fields.description.slice(0, 120) + "..." : ""}`;
+          return `-   ${i.key} | ${i?.fields?.summary ?? "" } ${i.fields.description ? i.fields.description.slice(0, 120) + "..." : ""}`;
         })
       );
     }
