@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v2.2.0
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.1.0...v2.2.0)
+
+### 🚀 Enhancements
+
+- Rename package to pishilogger and add GitLab command support ([1b0527f](https://github.com/saman-taghavi/pishiLogger/commit/1b0527f))
+- **gitlab:** Implement GitLab command with changelog generation and release support ([421f34d](https://github.com/saman-taghavi/pishiLogger/commit/421f34d))
+- Add jira info to gitlab markdown ([262c057](https://github.com/saman-taghavi/pishiLogger/commit/262c057))
+- Update gitlab wiki ([202a823](https://github.com/saman-taghavi/pishiLogger/commit/202a823))
+- Add matermost version 1 ([8e4851e](https://github.com/saman-taghavi/pishiLogger/commit/8e4851e))
+
+### 🩹 Fixes
+
+- Update git log command to use custom separator and adjust tests for new repository name ([728a095](https://github.com/saman-taghavi/pishiLogger/commit/728a095))
+- Eslint errors ([762fe48](https://github.com/saman-taghavi/pishiLogger/commit/762fe48))
+
+### 📖 Documentation
+
+- Update README to reflect package name change to pishilogger ([3cabb4e](https://github.com/saman-taghavi/pishiLogger/commit/3cabb4e))
+- Update CHANGELOG links to reflect repository name change to pishiLogger ([eb053cc](https://github.com/saman-taghavi/pishiLogger/commit/eb053cc))
+
+### 🏡 Chore
+
+- Add bun.lock to .gitignore ([b95c1ec](https://github.com/saman-taghavi/pishiLogger/commit/b95c1ec))
+- **release:** V2.1.0 ([40385a5](https://github.com/saman-taghavi/pishiLogger/commit/40385a5))
+- **release:** V2.1.1 ([8ff688d](https://github.com/saman-taghavi/pishiLogger/commit/8ff688d))
+- Add .env to .gitignore ([363b09a](https://github.com/saman-taghavi/pishiLogger/commit/363b09a))
+- Update package description to reflect new repository URL ([a25cd30](https://github.com/saman-taghavi/pishiLogger/commit/a25cd30))
+- Format with prettier ([0583426](https://github.com/saman-taghavi/pishiLogger/commit/0583426))
+
+### other
+
+- Keep it till here
+- Add jira then upload to matter most and jira and git
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+
 ## v2.1.1
 
 [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.1.0...v2.1.1)

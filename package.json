@@ -1,6 +1,6 @@
 {
   "name": "pishilogger",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "generate automated changelog simply, a fork of `https://github.com/saman-taghavi/pishiLogger`",
   "repository": "saman-taghavi/pishiLogger",
   "license": "MIT",
