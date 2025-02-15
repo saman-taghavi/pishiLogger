@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v2.4.0
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.3.5...v2.4.0)
+
+### 🚀 Enhancements
+
+- Change title ([82b830e](https://github.com/saman-taghavi/pishiLogger/commit/82b830e))
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+
 ## v2.3.5
 
 [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.3.4...v2.3.5)
