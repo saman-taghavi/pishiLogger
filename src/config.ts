@@ -14,6 +14,14 @@ export interface ChangelogConfig {
   provider?: Partial<{
     gitlab: { CI_PROJECT_ID: string; CI_API_V4_URL: string };
   }>;
+  publisher?: Partial<{
+    mattermost: {
+      username: string;
+      password: string;
+      url: string;
+      channelName: string;
+    };
+  }>;
   from: string;
   to: string;
   newVersion?: string;
@@ -74,6 +82,15 @@ const getDefaultConfig = () =>
       gitlab: {
         CI_API_V4_URL: process.env.CI_API_V4_URL,
         CI_PROJECT_ID: process.env.CI_PROJECT_ID,
+      },
+    },
+    publisher: {
+      mattermost: {
+        // this is not desired, as server devops is out of question right now we stick with this so far
+        username: process.env.MATTERMOST_USERNAME,
+        password: process.env.MATTERMOST_PASSWORD,
+        url: process.env.MATTERMOST_URL,
+        channelName: process.env.MATTERMOST_CHANNEL,
       },
     },
     publish: {

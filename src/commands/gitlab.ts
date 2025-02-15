@@ -9,6 +9,7 @@ import {
   parseCommits,
 } from "..";
 import { generateMarkDown, publishGitlabWiki } from "../modules/gitlab";
+import { sendToMatteMost } from "../modules/mattermost";
 
 export default async function gitlabMain(args: Argv) {
   const cwd = resolve(args._[0] /* bw compat */ || args.dir || "");
@@ -40,7 +41,7 @@ export default async function gitlabMain(args: Argv) {
     type: c.type.toLowerCase() /* #198 */,
   }));
 
-  logger.info(JSON.stringify(commits, undefined, 3));
+
   // Generate markdown
   const markdown = await generateMarkDown(commits, config);
   // Show changelog in CLI unless bumping or releasing
@@ -58,11 +59,19 @@ export default async function gitlabMain(args: Argv) {
     await fsp.writeFile(config.output, changelogMD);
   }
   // TODO upload the file to gitlab wiki
+  const title = markdown.match(/^###?\s+.*$/m)[0].replaceAll("/", "-");
   if (config.tokens.gitlab) {
-    const title = markdown.match(/^###?\s+.*$/m)[0].replaceAll("/","-")
     logger.info(`updating wiki with${title}`);
     const res = await publishGitlabWiki(markdown, title, config);
     logger.info(`wiki update result,${JSON.stringify(res)}`);
+  }
+  if (config.publisher.mattermost.username) {
+    logger.info(
+      `posting to mattermost with user ${config.publisher.mattermost.username}`
+    );
+    const res = await sendToMatteMost(markdown, title, config);
+
+    logger.info(`mattermost update result,${JSON.stringify(res)}`);
   }
   // TODO upload the file to mattermost
 }
