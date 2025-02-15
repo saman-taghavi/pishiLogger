@@ -85,7 +85,7 @@ export async function sendToMatteMost(
       channel_id: chanelId.id,
       // Message includes a preview of the file content
       message: `#${title}+"\n\n"+${preview}`,
-      file_ids: uploadResponse[0].id,
+      file_ids: uploadResponse.file_infos[0].id,
       metadata: {
         priority: {
           priority: "important",
