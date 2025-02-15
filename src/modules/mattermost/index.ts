@@ -84,15 +84,8 @@ export async function sendToMatteMost(
     const postPayload = {
       channel_id: chanelId.id,
       // Message includes a preview of the file content
-      message: `#${title}+"\n\n"+${preview}`,
-      file_ids: uploadResponse.file_infos[0].id,
-      metadata: {
-        priority: {
-          priority: "important",
-          requested_ack: false,
-          persistent_notifications: false,
-        },
-      },
+      message: `#${title}`,
+      file_ids: [uploadResponse.file_infos[0].id],
     };
 
     const postResponse = await ofetch(POST(mattermostUrl), {
