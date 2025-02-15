@@ -1,10 +1,11 @@
 import { upperFirst } from "scule";
 import { convert } from "convert-gitmoji";
 import { fetch } from "node-fetch-native";
-import type { ResolvedChangelogConfig } from "./config";
-import type { GitCommit, Reference } from "./git";
-import { formatReference, formatCompareChanges } from "./repo";
-import { getJiraDetails, getJiraInfo, JiraResponse } from "./jira";
+import type { ResolvedChangelogConfig } from "../../config";
+import type { GitCommit, Reference } from "../../git";
+import { formatReference, formatCompareChanges } from "../../repo";
+import { getJiraDetails, getJiraInfo, JiraResponse } from "../../jira";
+import { config } from "node:process";
 
 export async function generateMarkDown(
   commits: GitCommit[],
@@ -179,3 +180,51 @@ function groupBy(items: any[], key: string) {
 
 const CHANGELOG_RELEASE_HEAD_RE = /^#{2,}\s+.*(v?(\d+\.\d+\.\d+)).*$/gm;
 const VERSION_RE = /^v?(\d+\.\d+\.\d+)$/;
+
+export const publishGitlabWiki = async (
+  content: string,
+  title: string,
+  config: ResolvedChangelogConfig
+) => {
+  try {
+    const res = await fetch(
+      `${config.provider.gitlab.CI_API_V4_URL}/projects/${config.provider.gitlab.CI_PROJECT_ID}/wikis`,
+      {
+        headers: {
+          "PRIVATE-TOKEN": `${config.tokens.gitlab}`,
+          "Content-Type": "application/json",
+        },
+        method: "post",
+        body: JSON.stringify({
+          format: "markdown",
+          title,
+          content,
+        }),
+      }
+    );
+    if (res.status === 400) {
+      const updateRes = await fetch(
+        `${config.provider.gitlab.CI_API_V4_URL}/projects/${config.provider.gitlab.CI_PROJECT_ID}/wikis/${encodeURIComponent(title)}`,
+        {
+          headers: {
+            "PRIVATE-TOKEN": `${config.tokens.gitlab}`,
+            "Content-Type": "application/json",
+          },
+          method: "put",
+          body: JSON.stringify({
+            format: "markdown",
+            title,
+            content,
+          }),
+        }
+      );
+      return await updateRes.json();
+    }
+
+    return await res.json();
+  } catch (error) {
+    throw new Error("publishGitlabWiki", {
+      cause: error,
+    });
+  }
+};

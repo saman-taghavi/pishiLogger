@@ -8,7 +8,7 @@ import {
   loadChangelogConfig,
   parseCommits,
 } from "..";
-import { generateMarkDown } from "../gitlab";
+import { generateMarkDown, publishGitlabWiki } from "../modules/gitlab";
 
 export default async function gitlabMain(args: Argv) {
   const cwd = resolve(args._[0] /* bw compat */ || args.dir || "");
@@ -35,11 +35,12 @@ export default async function gitlabMain(args: Argv) {
 
   const rawCommits = await getGitDiff(config.from, config.to);
   // Parse commits as our conventional commits
-  const commits = parseCommits(rawCommits, config)
-    .map((c) => ({ ...c, type: c.type.toLowerCase() /* #198 */ }))
+  const commits = parseCommits(rawCommits, config).map((c) => ({
+    ...c,
+    type: c.type.toLowerCase() /* #198 */,
+  }));
 
-
-  logger.info(JSON.stringify(commits,undefined,3))
+  logger.info(JSON.stringify(commits, undefined, 3));
   // Generate markdown
   const markdown = await generateMarkDown(commits, config);
   // Show changelog in CLI unless bumping or releasing
@@ -51,29 +52,17 @@ export default async function gitlabMain(args: Argv) {
   // Update changelog file (only when bumping or releasing or when --output is specified as a file)
   if (typeof config.output === "string" && (args.output || !displayOnly)) {
     let changelogMD: string;
-    if (existsSync(config.output)) {
-      consola.info(`Updating ${config.output}`);
-      changelogMD = await fsp.readFile(config.output, "utf8");
-    } else {
-      consola.info(`Creating  ${config.output}`);
-      changelogMD = "# Changelog\n\n";
-    }
-
-    const lastEntry = changelogMD.match(/^###?\s+.*$/m);
-
-    if (lastEntry) {
-      changelogMD =
-        changelogMD.slice(0, lastEntry.index) +
-        markdown +
-        "\n\n" +
-        changelogMD.slice(lastEntry.index);
-    } else {
-      changelogMD += "\n" + markdown + "\n\n";
-    }
-
+    consola.info(`Creating  ${config.output}`);
+    changelogMD = "# Changelog\n\n";
+    changelogMD += "\n" + markdown + "\n\n";
     await fsp.writeFile(config.output, changelogMD);
   }
-
   // TODO upload the file to gitlab wiki
+  if (config.tokens.gitlab) {
+    const title = markdown.match(/^###?\s+.*$/m)[0].replaceAll("/","-")
+    logger.info(`updating wiki with${title}`);
+    const res = await publishGitlabWiki(markdown, title, config);
+    logger.info(`wiki update result,${JSON.stringify(res)}`);
+  }
   // TODO upload the file to mattermost
 }

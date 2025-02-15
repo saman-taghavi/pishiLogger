@@ -11,7 +11,9 @@ export interface ChangelogConfig {
   scopeMap: Record<string, string>;
   repo?: RepoConfig | string;
   tokens: Partial<Record<RepoProvider, string>>;
-  provider?: Partial<Record<RepoProvider, string>>;
+  provider?: Partial<{
+    gitlab: { CI_PROJECT_ID: string; CI_API_V4_URL: string };
+  }>;
   from: string;
   to: string;
   newVersion?: string;
@@ -69,7 +71,10 @@ const getDefaultConfig = () =>
       gitlab: process.env.GITLAB_TOKEN || process.env.GL_TOKEN,
     },
     provider: {
-      gitlab: process.env.CI_API_V4_URL,
+      gitlab: {
+        CI_API_V4_URL: process.env.CI_API_V4_URL,
+        CI_PROJECT_ID: process.env.CI_PROJECT_ID,
+      },
     },
     publish: {
       private: false,
