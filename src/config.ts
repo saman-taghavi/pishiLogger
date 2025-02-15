@@ -76,7 +76,7 @@ const getDefaultConfig = () =>
         process.env.CHANGELOGEN_TOKENS_GITHUB ||
         process.env.GITHUB_TOKEN ||
         process.env.GH_TOKEN,
-      gitlab: process.env.GITLAB_TOKEN || process.env.GL_TOKEN,
+      gitlab: process.env.CUSTOM_GITLAB_TOKEN || process.env.GITLAB_TOKEN || process.env.GL_TOKEN,
     },
     provider: {
       gitlab: {
