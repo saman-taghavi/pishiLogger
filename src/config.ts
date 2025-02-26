@@ -20,7 +20,7 @@ export interface ChangelogConfig {
       password: string;
       url: string;
       channelName: string;
-      webhook?:string
+      webhook?: string;
     };
   }>;
   from: string;
@@ -43,6 +43,7 @@ export interface ChangelogConfig {
     serverUrl: string;
     token: string;
   };
+  hideAuthorEmail?: boolean;
 }
 
 export type ResolvedChangelogConfig = Omit<ChangelogConfig, "repo"> & {
@@ -77,7 +78,10 @@ const getDefaultConfig = () =>
         process.env.CHANGELOGEN_TOKENS_GITHUB ||
         process.env.GITHUB_TOKEN ||
         process.env.GH_TOKEN,
-      gitlab: process.env.CUSTOM_GITLAB_TOKEN || process.env.GITLAB_TOKEN || process.env.GL_TOKEN,
+      gitlab:
+        process.env.CUSTOM_GITLAB_TOKEN ||
+        process.env.GITLAB_TOKEN ||
+        process.env.GL_TOKEN,
     },
     provider: {
       gitlab: {
