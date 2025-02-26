@@ -38,6 +38,7 @@ export interface ChangelogConfig {
     tagMessage?: string;
     tagBody?: string;
   };
+  noAuthors: boolean;
   excludeAuthors: string[];
   jira?: {
     serverUrl: string;
@@ -114,6 +115,7 @@ const getDefaultConfig = () =>
       serverUrl: process.env.JIRA_SERVER,
       token: process.env.JIRA_TOKEN,
     },
+    noAuthors: false,
   };
 
 export async function loadChangelogConfig(
