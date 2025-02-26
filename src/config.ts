@@ -45,6 +45,7 @@ export interface ChangelogConfig {
     serverUrl: string;
     token: string;
   };
+  hideAuthorEmail?: boolean;
 }
 
 export type ResolvedChangelogConfig = Omit<ChangelogConfig, "repo"> & {
