@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v2.6.5
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.6.4...v2.6.5)
+
+### 🩹 Fixes
+
+- Remove description truncation from Jira issues display ([fe2085a](https://github.com/saman-taghavi/pishiLogger/commit/fe2085a))
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+
 ## v2.6.4
 
 [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.6.3...v2.6.4)
