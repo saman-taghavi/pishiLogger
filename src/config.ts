@@ -117,6 +117,7 @@ const getDefaultConfig = () =>
       serverUrl: process.env.JIRA_SERVER,
       token: process.env.JIRA_TOKEN,
     },
+    noAuthors: false,
   };
 
 export async function loadChangelogConfig(

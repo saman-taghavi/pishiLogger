@@ -5,15 +5,14 @@ import { testCommits } from "./fixtures/commits";
 describe("contributors", () => {
   test("should include authors", async () => {
     const config = await loadChangelogConfig(process.cwd(), {
-      from: "1.0.0",
-      newVersion: "2.0.0",
+      newVersion: "1.0.0",
     });
     const contents = await generateMarkDown(testCommits, config);
 
     expect(contents).toMatchInlineSnapshot(`
-      "## v2.0.0
+      "## v1.0.0
 
-      [compare changes](https://github.com/unjs/changelogen/compare/1.0.0...v2.0.0)
+      [compare changes](https://github.com/unjs/changelogen/compare/v0.5.7...v1.0.0)
 
       ### 🚀 Enhancements
 
@@ -42,16 +41,15 @@ describe("contributors", () => {
 
   test("should skip authors with noAuthors config", async () => {
     const config = await loadChangelogConfig(process.cwd(), {
-      from: "1.0.0",
-      newVersion: "2.0.0",
+      newVersion: "1.0.0",
       noAuthors: true,
     });
     const contents = await generateMarkDown(testCommits, config);
 
     expect(contents).toMatchInlineSnapshot(`
-      "## v2.0.0
+      "## v1.0.0
 
-      [compare changes](https://github.com/unjs/changelogen/compare/1.0.0...v2.0.0)
+      [compare changes](https://github.com/unjs/changelogen/compare/v0.5.7...v1.0.0)
 
       ### 🚀 Enhancements
 
