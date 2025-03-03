@@ -27,11 +27,9 @@ export interface GitCommit extends RawGitCommit {
   isBreaking: boolean;
 }
 
-export async function getLastGitTag() {
+export async function getLastGitTag(cwd?: string) {
   try {
-    return execCommand(
-      "git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1)"
-    )
+    return execCommand("git describe --tags --abbrev=0", cwd)
       ?.split("\n")
       .at(-1);
   } catch {
@@ -39,29 +37,33 @@ export async function getLastGitTag() {
   }
 }
 
-export function getCurrentGitBranch() {
-  return execCommand("git rev-parse --abbrev-ref HEAD");
+export function getCurrentGitBranch(cwd?: string) {
+  return execCommand("git rev-parse --abbrev-ref HEAD", cwd);
 }
 
-export function getCurrentGitTag() {
-  return execCommand("git tag --points-at HEAD");
+export function getCurrentGitTag(cwd?: string) {
+  return execCommand("git tag --points-at HEAD", cwd);
 }
 
-export function getCurrentGitRef() {
-  return getCurrentGitTag() || getCurrentGitBranch();
+export function getCurrentGitRef(cwd?: string) {
+  return getCurrentGitTag(cwd) || getCurrentGitBranch(cwd);
 }
 
 export function getGitRemoteURL(cwd: string, remote = "origin") {
-  return execCommand(`git --work-tree="${cwd}" remote get-url "${remote}"`);
+  return execCommand(
+    `git --work-tree="${cwd}" remote get-url "${remote}"`,
+    cwd
+  );
 }
 
-export async function getCurrentGitStatus() {
-  return execCommand("git status --porcelain");
+export async function getCurrentGitStatus(cwd?: string) {
+  return execCommand("git status --porcelain", cwd);
 }
 
 export async function getGitDiff(
   from: string | undefined,
-  to = "HEAD"
+  to = "HEAD",
+  cwd?: string
 ): Promise<RawGitCommit[]> {
   // https://git-scm.com/docs/pretty-formats
   const r = execCommand(
