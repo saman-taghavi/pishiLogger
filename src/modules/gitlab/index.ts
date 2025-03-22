@@ -51,7 +51,7 @@ export async function generateMarkDown(
         "### " + "🎯🪛🔧 Related Jira Issues Info",
         "",
         ...jiraIssues.map((i) => {
-          return `-   ${i.key} | ${i?.fields?.summary ?? "" }`;
+          return `-   ${i.key} | ${i?.fields?.summary ?? ""}`;
         })
       );
     }
