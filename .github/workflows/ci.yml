@@ -15,16 +15,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "pnpm"
-      - name: Install corepack
-        run: npm install -g corepack
-      - name: Enable corepack
-        run: corepack enable
-      - name: Disable signature verification
-        run: export COREPACK_DISABLE_SIGNATURE_VERIFICATION=true
       - name: Install dependencies
         run: pnpm install
       - run: pnpm lint
