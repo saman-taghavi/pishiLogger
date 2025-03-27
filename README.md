@@ -60,7 +60,7 @@ npx pishilogger@latest [...args] [--dir <dir>]
 
 ### `pishilogger gh release`
 
-Pishilogger has built-in functionality to sync with with Github releases.
+Changelogen has built-in functionality to sync with Github releases.
 
 In order to manually sync a release, you can use `pishilogger gh release`. It will parse current `CHANGELOG.md` from current repository (local, then remote) and create or update releases.
 
