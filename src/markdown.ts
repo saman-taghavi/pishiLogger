@@ -2,7 +2,7 @@ import { upperFirst } from "scule";
 import { convert } from "convert-gitmoji";
 import { fetch } from "node-fetch-native";
 import type { ResolvedChangelogConfig } from "./config";
-import type { GitCommit, Reference } from "./git";
+import { getCurrentGitBranch, type GitCommit, type Reference } from "./git";
 import { formatReference, formatCompareChanges } from "./repo";
 
 export async function generateMarkDown(
@@ -18,7 +18,12 @@ export async function generateMarkDown(
   const v =
     config.newVersion &&
     config.templates.tagBody.replaceAll("{{newVersion}}", config.newVersion);
-  markdown.push("", "## " + (v || `${config.from || ""}...${config.to}`), "");
+  const lastTagOrBranchName = config.to ?? getCurrentGitBranch();
+  markdown.push(
+    "",
+    "## " + (v || `${config.from || ""}...${lastTagOrBranchName}`),
+    ""
+  );
 
   if (config.repo && config.from) {
     markdown.push(formatCompareChanges(v, config));

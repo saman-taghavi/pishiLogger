@@ -62,7 +62,7 @@ export async function getCurrentGitStatus(cwd?: string) {
 
 export async function getGitDiff(
   from: string | undefined,
-  to = "HEAD",
+  to,
   cwd?: string
 ): Promise<RawGitCommit[]> {
   // https://git-scm.com/docs/pretty-formats
