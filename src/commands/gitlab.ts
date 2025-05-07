@@ -1,6 +1,6 @@
 import consola from "consola";
 import type { Argv } from "mri";
-import { existsSync, promises as fsp } from "node:fs";
+import { promises as fsp } from "node:fs";
 import { resolve } from "pathe";
 import {
   getCurrentGitStatus,
