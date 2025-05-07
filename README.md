@@ -65,9 +65,9 @@ npx pishilogger@latest [...args] [--dir <dir>]
 >
 > To ensure consistent semantic versioning, start version numbering at `1.0.0`.
 
-### `changelogen gh release`
+### `pishilogger gh release`
 
-Changelogen has built-in functionality to sync with Github releases.
+pishilogger has built-in functionality to sync with Github releases.
 
 In order to manually sync a release, you can use `pishilogger gh release`. It will parse current `CHANGELOG.md` from current repository (local, then remote) and create or update releases.
 
@@ -79,7 +79,7 @@ npx pishilogger@latest gh release [all|versions...] [--dir] [--token]
 
 To enable this integration, make sure there is a valid `repository` field in `package.json` or `repo` is set in `.changelogenrc`.
 
-By default in unauthenticated mode, changelogen will open a browser link to make manual release. By providing github token, it can be automated.
+By default in unauthenticated mode, pishilogger will open a browser link to make manual release. By providing github token, it can be automated.
 
 - Using environment variables or `.env`, use `CHANGELOGEN_TOKENS_GITHUB` or `GITHUB_TOKEN` or `GH_TOKEN`
 - Using CLI args, use `--token <token>`
@@ -88,7 +88,7 @@ By default in unauthenticated mode, changelogen will open a browser link to make
 
 ## Configuration
 
-Configuration is loaded by [unjs/c12](https://github.com/unjs/c12) from cwd. You can use either `changelog.config.json`, `changelog.config.{ts,js,mjs,cjs}`, `.changelogrc` or use the `changelog` field in `package.json`.
+Configuration is loaded by [unjs/c12](https://github.com/saman-taghavi/c12) from cwd. You can use either `changelog.config.json`, `changelog.config.{ts,js,mjs,cjs}`, `.changelogrc` or use the `changelog` field in `package.json`.
 
 See [./src/config.ts](./src/config.ts) for available options and defaults.
 
