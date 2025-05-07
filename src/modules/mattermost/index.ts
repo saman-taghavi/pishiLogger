@@ -1,6 +1,6 @@
 import { ofetch } from "ofetch";
 import { ResolvedChangelogConfig } from "../../config";
-import { channelResponse, LoginRersponse } from "./api.types";
+import { channelResponse } from "./api.types";
 
 const LOGIN = (mattermostURL) => `${mattermostURL}/api/v4/users/login`;
 const GET_USER_CHANNELS = (mattermostURL) =>
@@ -70,9 +70,6 @@ export async function sendWithUserPass(
   }
 
   try {
-    // Create a preview of the first 10 lines
-    const preview = getPreview(markdown);
-
     // Convert the markdown string to a Blob (which acts as our file)
     const fileBlob = new Blob([markdown], { type: "text/markdown" });
 
@@ -112,13 +109,6 @@ export async function sendWithUserPass(
     console.error("Error:", error);
   }
 }
-
-const getPreview = (md: string) =>
-  md
-    .split("\n")
-    .filter((line) => line.trim() !== "")
-    .slice(0, 20)
-    .join("\n");
 
 const sendWithWebhook = async ({
   config,
