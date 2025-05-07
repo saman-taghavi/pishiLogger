@@ -2,6 +2,71 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v2.0.0
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v2.1.0...v2.0.0)
+
+### 🚀 Enhancements
+
+- Rename package to pishilogger and add GitLab command support ([d00194a](https://github.com/saman-taghavi/pishiLogger/commit/d00194a))
+- Hide author email address via flag ([#247](https://github.com/saman-taghavi/pishiLogger/pull/247))
+- Add `noAuthors` option ([#183](https://github.com/saman-taghavi/pishiLogger/pull/183))
+
+### 🩹 Fixes
+
+- Release version regex supporting pre versions ([#259](https://github.com/saman-taghavi/pishiLogger/pull/259))
+- Use correct compare changes URL for Bitbucket ([#257](https://github.com/saman-taghavi/pishiLogger/pull/257))
+- Use tag template for version title and compare change link ([#255](https://github.com/saman-taghavi/pishiLogger/pull/255))
+- Render usernames in github changelog ([#265](https://github.com/saman-taghavi/pishiLogger/pull/265))
+- Pass `cwd` in more places before running commands ([#266](https://github.com/saman-taghavi/pishiLogger/pull/266))
+
+### 💅 Refactors
+
+- Use consola for colors ([a7e7a57](https://github.com/saman-taghavi/pishiLogger/commit/a7e7a57))
+- Use confbox for yaml parsing ([6e4891f](https://github.com/saman-taghavi/pishiLogger/commit/6e4891f))
+
+### 📖 Documentation
+
+- Add note about version number interpretation ([#272](https://github.com/saman-taghavi/pishiLogger/pull/272))
+
+### 📦 Build
+
+- ⚠️  Esm-only dist ([74f38a4](https://github.com/saman-taghavi/pishiLogger/commit/74f38a4))
+
+### 🏡 Chore
+
+- Add bun.lock to .gitignore ([b95c1ec](https://github.com/saman-taghavi/pishiLogger/commit/b95c1ec))
+- Update deps ([3d4381c](https://github.com/saman-taghavi/pishiLogger/commit/3d4381c))
+- Update ci ([868a2f4](https://github.com/saman-taghavi/pishiLogger/commit/868a2f4))
+- Update esm-only deps ([be0c85d](https://github.com/saman-taghavi/pishiLogger/commit/be0c85d))
+- **release:** V0.6.0 ([b1faabb](https://github.com/saman-taghavi/pishiLogger/commit/b1faabb))
+- Update deps ([0572cf6](https://github.com/saman-taghavi/pishiLogger/commit/0572cf6))
+- Update tsconfig ([90906df](https://github.com/saman-taghavi/pishiLogger/commit/90906df))
+- **release:** V0.6.1 ([2be2fcc](https://github.com/saman-taghavi/pishiLogger/commit/2be2fcc))
+- **readme:** Fix typo ([#270](https://github.com/saman-taghavi/pishiLogger/pull/270))
+- **gitlab:** Remove unused existsSync import ([619d6fa](https://github.com/saman-taghavi/pishiLogger/commit/619d6fa))
+- Remove unused getPreview function | ([f200488](https://github.com/saman-taghavi/pishiLogger/commit/f200488))
+
+### ✅ Tests
+
+- Update snapshot ([f49057b](https://github.com/saman-taghavi/pishiLogger/commit/f49057b))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Esm-only dist ([74f38a4](https://github.com/saman-taghavi/pishiLogger/commit/74f38a4))
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+- Adarsh DK <adarsh.dk24012@gmail.com>
+- B. Jonson ([@who-jonson](https://github.com/who-jonson))
+- Pooya Parsa ([@pi0](https://github.com/pi0))
+- Daniel Roe ([@danielroe](https://github.com/danielroe))
+- Klein Petr ([@kleinpetr](https://github.com/kleinpetr))
+- Jasper Zonneveld ([@JaZo](https://github.com/JaZo))
+- Thorsten Seyschab ([@toddeTV](https://github.com/toddeTV))
+- Philipp Kief ([@PKief](https://github.com/PKief))
+
 ## v0.6.1
 
 [compare changes](https://github.com/unjs/changelogen/compare/v0.6.0...v0.6.1)
