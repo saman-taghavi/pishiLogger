@@ -67,7 +67,8 @@ export async function getGitDiff(
 ): Promise<RawGitCommit[]> {
   // https://git-scm.com/docs/pretty-formats
   const r = execCommand(
-    `git --no-pager log "${from ? `${from}...` : ""}${to}" --pretty="----%n%s[seperator]%h[seperator]%an[seperator]%ae%n%b" --name-status`
+    `git --no-pager log "${from ? `${from}...` : ""}${to}" --pretty="----%n%s[seperator]%h[seperator]%an[seperator]%ae%n%b" --name-status`,
+    cwd
   );
   return r
     .split("----\n")
