@@ -18,8 +18,8 @@ export async function generateMarkDown(
 
   // Version Title
   const v = config.newVersion && `v${config.newVersion}`;
-  const lastTagOrBranchName = config.to ?? getCurrentGitBranch();
-  logger.info(`Generating markdown for version: ${lastTagOrBranchName}`);
+  const lastTagOrBranchName =
+    config.to === "HEAD" ? getCurrentGitBranch() : config.to;
   markdown.push(
     "",
     "## " + (v || `${config.from || ""}...${lastTagOrBranchName}`),
