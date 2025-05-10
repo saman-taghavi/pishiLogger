@@ -24,7 +24,7 @@ export async function getGitDiff({
     .map((line) => {
       const [firstLine, ..._body] = line.split("\n");
       const [message, shortHash, authorName, authorEmail] =
-        firstLine.split("|");
+        firstLine.split(customSeperator);
       const r: RawGitCommit = {
         message,
         shortHash,
