@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.1.4
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v1.1.3...v1.1.4)
+
+### 🩹 Fixes
+
+- Correct lastTagOrBranchName assignment and update logging message ([b67bb8e](https://github.com/saman-taghavi/pishiLogger/commit/b67bb8e))
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+
 ## v1.1.3
 
 [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v1.1.2...v1.1.3)
