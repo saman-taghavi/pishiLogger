@@ -20,7 +20,6 @@ export async function generateMarkDown(
     config.newVersion &&
     config.templates.tagBody.replaceAll("{{newVersion}}", config.newVersion);
   const lastTagOrBranchName = config.to ?? getCurrentGitBranch();
-  logger.info(`Generating markdown for version: ${lastTagOrBranchName}`);
   markdown.push(
     "",
     "## " + (v || `${config.from || ""}...${lastTagOrBranchName}`),

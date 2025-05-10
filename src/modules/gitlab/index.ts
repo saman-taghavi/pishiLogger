@@ -5,6 +5,7 @@ import type { ResolvedChangelogConfig } from "../../config";
 import { getCurrentGitBranch, type GitCommit, type Reference } from "../../git";
 import { getJiraDetails } from "../../jira";
 import { formatCompareChanges, formatReference } from "../../repo";
+import { logger } from "../../commands/gitlab";
 
 export async function generateMarkDown(
   commits: GitCommit[],
@@ -18,6 +19,7 @@ export async function generateMarkDown(
   // Version Title
   const v = config.newVersion && `v${config.newVersion}`;
   const lastTagOrBranchName = config.to ?? getCurrentGitBranch();
+  logger.info(`Generating markdown for version: ${lastTagOrBranchName}`);
   markdown.push(
     "",
     "## " + (v || `${config.from || ""}...${lastTagOrBranchName}`),
