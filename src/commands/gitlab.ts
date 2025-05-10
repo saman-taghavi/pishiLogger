@@ -2,14 +2,10 @@ import consola from "consola";
 import type { Argv } from "mri";
 import { promises as fsp } from "node:fs";
 import { resolve } from "pathe";
-import {
-  getCurrentGitStatus,
-  getGitDiff,
-  loadChangelogConfig,
-  parseCommits,
-} from "..";
+import { getCurrentGitStatus, loadChangelogConfig, parseCommits } from "..";
 import { generateMarkDown, publishGitlabWiki } from "../modules/gitlab";
 import { sendToMatteMost } from "../modules/mattermost";
+import { getGitDiff } from "../modules/Custom/git";
 
 export default async function gitlabMain(args: Argv) {
   const cwd = resolve(args._[0] /* bw compat */ || args.dir || "");
@@ -34,7 +30,11 @@ export default async function gitlabMain(args: Argv) {
   const logger = consola.create({ stdout: process.stderr });
   logger.info(`Generating changelog for ${config.from || ""}...${config.to}`);
 
-  const rawCommits = await getGitDiff(config.from, config.to);
+  const rawCommits = await getGitDiff({
+    customSeperator: "[seperator]",
+    from: config.from,
+    to: config.to,
+  });
   // Parse commits as our conventional commits
   const commits = parseCommits(rawCommits, config).map((c) => ({
     ...c,

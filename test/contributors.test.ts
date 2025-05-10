@@ -12,7 +12,7 @@ describe("contributors", () => {
     expect(contents).toMatchInlineSnapshot(`
       "## v1.0.0
 
-      [compare changes](https://github.com/saman-taghavi/pishilogger/compare/1.0.0...v2.0.0)
+      [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v0.6.1...v1.0.0)
 
       ### 🚀 Enhancements
 
@@ -49,7 +49,7 @@ describe("contributors", () => {
     expect(contents).toMatchInlineSnapshot(`
       "## v1.0.0
 
-      [compare changes](https://github.com/saman-taghavi/pishilogger/compare/1.0.0...v2.0.0)
+      [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v0.6.1...v1.0.0)
 
       ### 🚀 Enhancements
 
