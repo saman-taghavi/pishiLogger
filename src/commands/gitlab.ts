@@ -6,7 +6,7 @@ import { getCurrentGitStatus, loadChangelogConfig, parseCommits } from "..";
 import { generateMarkDown, publishGitlabWiki } from "../modules/gitlab";
 import { sendToMatteMost } from "../modules/mattermost";
 import { getGitDiff } from "../modules/Custom/git";
-
+export const logger = consola.create({ stdout: process.stderr });
 export default async function gitlabMain(args: Argv) {
   const cwd = resolve(args._[0] /* bw compat */ || args.dir || "");
   process.chdir(cwd);
@@ -27,7 +27,6 @@ export default async function gitlabMain(args: Argv) {
     }
   }
 
-  const logger = consola.create({ stdout: process.stderr });
   logger.info(`Generating changelog for ${config.from || ""}...${config.to}`);
 
   const rawCommits = await getGitDiff({
