@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.1.1
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v1.1.0...v1.1.1)
+
+### 🏡 Chore
+
+- Track version name ([722882d](https://github.com/saman-taghavi/pishiLogger/commit/722882d))
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+
 ## v1.1.0
 
 [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v0.6.1...v1.1.0)
