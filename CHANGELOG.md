@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.1.3
+
+[compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v1.1.2...v1.1.3)
+
+### 🩹 Fixes
+
+- Add logger for markdown generation process ([431703e](https://github.com/saman-taghavi/pishiLogger/commit/431703e))
+
+### ❤️ Contributors
+
+- Saman-taghavi <taghavisani@gmail.com>
+
 ## v1.1.2
 
 [compare changes](https://github.com/saman-taghavi/pishiLogger/compare/v1.1.1...v1.1.2)
